@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% block title %} Inventories {% endblock %}
+
+{% block head %}
+  {% include 'nav.html' %}
+{% endblock %}
+{% block body %}
+
+  <main class="container">
+    <section class="hero">
+      
+        <div class="container">
+       {% include 'summury_strip.html' %}
+            <div class="row justify-content-md-center">
+                      
+                      
+                </div>
+                <div class="col-md-auto">
+                  <!-- Button trigger modal -->
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="static" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="staticLabel">New Item</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                
+                                <form action="{{url_for('add_product')}}" method="POST">
+                                  <div class="form-group">
+                                    <label for="exampleInputEmail1">Product Name</label>
+                                    <input type="text" name="p_name" class="form-control" aplaceholder="Name of the item">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleInputEmail1">Buying Price</label>
+                                    <input type="text" name="bp" class="form-control" aplaceholder="Name of the item">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleInputEmail1">Selling Price</label>
+                                    <input type="text" name="sp" class="form-control" aplaceholder="Name of the item">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleInputEmail1">Stock Quantity</label>
+                                    <input type="text" name="quantity" class="form-control" aplaceholder="Name of the item">
+                                  </div>
+                                
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-md btn-success">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="col col-lg-2">
+                </div>
+              </div>
+              <div class="row table_2">
+                <div class="col-lg-4">
+                
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#static">
+                        + Add New Item
+                    </button>
+                    
+                </div>
+                <div class="col">
+                  
+                 
+                </div>
+              </div>
+            <div class="row">
+                <div class="col-lg-2">
+
+                </div>
+                {% with message = get_flashed_message %}
+                  {% if message %}
+                    {% for i in message %}
+                      <p>{{msg}}</p>
+                    {% endfor%}
+                  {% endif %}
+                {% endwith %}
+              <div class="col table_1">
+                <table class="table table-striped " id="myTable">
+                    <thead>
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Buying</th>
+                        <th scope="col">Selling</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Sale</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in records %}
+                      <tr>
+                        <th scope="row">{{i[0]}}</th>
+                        <td>{{i[1]}}</td>
+                        <td>{{i[2]}}</td>
+                        <td>{{i[3]}}</td>
+                        <td>{{i[4]}}</td>
+                        <td>
+                          <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#saleModal{{i[0]}}">
+                            <ion-icon name="cart-outline"></ion-icon>
+                          </button>
+                          
+                          <!-- Modal -->
+                         {% include 'modal.html' %}
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#updateModal{{i[0]}}">
+                            <a ion-icon name="glyphicon glyphicon-pencil">
+                              <span class="glyphicon glyphicon-pencil"></span> Update 
+                            </a>
+                          </button>
+                          
+                          <!-- Modal -->
+                          <div class="modal fade" id="updateModal{{ i[0]}}" data-bs-backdrop="update" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="updateLabel">Update Product</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    <form action="/update/{{i[0]}}" method="POST">
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">Product Id: {{i[0]}}</label>
+
+                                        <input type="hidden" name="pid" value="{{i[0]}}" class="form-control" aplaceholder="Name of the item">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">Product Name</label>
+                                        <input type="text" name="p_name" value="{{i[1]}}" class="form-control" aplaceholder="Name of the item">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">Buying Price</label>
+                                        <input type="text" name="bp" value="{{i[2]}}" class="form-control" aplaceholder="Name of the item">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">Selling Price</label>
+                                        <input type="text" name="sp" value="{{i[3]}}" class="form-control" aplaceholder="Name of the item">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="exampleInputEmail1">Stock Quantity</label>
+                                        <input type="text" value="{{i[4]}}" name="quantity" class="form-control" aplaceholder="Name of the item">
+                                      </div>
+                                    
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-md btn-success">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                            </div>
+                          </div>
+                        </div>
+                        </td>
+                       <td>
+                        <button type="button" class="btn text-success btn-outline-dark" data-bs-toggle="modal" data-bs-target="#viewModal{{i[0]}}">
+                         
+                          <a href="inventorie/{{ i[0] }}" ion-icon class="bi bi-eye-slash">
+                            View 
+                          </a>
+                        </button>
+                        
+                       </td>
+                     
+                      </tr>   
+                      </tr>
+          
+                      {% endfor %}
+                      
+                    </tbody>
+                  </table>
+              </div>
+            
+            </div>
+          </div>
+    </section>
+  </main>
+
+{% endblock %}

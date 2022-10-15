@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+  Home Page
+{% endblock %}
+
+
+{% block head %}
+{% include 'nav.html' %}
+{% endblock %}
+
+{% block body %}
+
+<main class="container">
+    <section class="hero">
+
+        <div class="col">
+            <div class="card card-style mb-2">
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative ;">
+                        <h2>Products graph</h2>
+                        <canvas id="myChart2" width="700" height="300"></canva>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sales -->
+        <div class="col">
+            <div class="card card-style mb-2">
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative ;">
+                        <h2>Sales graph</h2>
+                        <canvas id="myChart1" width="700" height="300"></canva>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+</main>
+
+
+
+
+<script>
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const myChart2 = new Chart (ctx2, {
+        type: 'bar',
+        data: {
+            labels: {{ labels | safe }},
+            datasets: [{
+                label: 'items in my inventory',
+                data: {{ values | safe }},
+                borderColor: [ '#BDB76B',
+                ],
+                borderWidth: 1,
+                lineTension: 0.1,
+            }]
+        },
+        options: {
+                responsive:false
+        }
+    });
+</script>
+
+<script>
+    const ctx1 = document.getElementById('myChart1').getContext('2d');
+    const myChart1 = new Chart (ctx1, {
+        type: 'bar',
+        data: {
+            labels: {{ label_x | safe }},
+            datasets: [{
+                label: 'items in my Sales',
+                data: {{ value_y | safe }},
+                borderColor: [ '#BDB76B',
+                ],
+                borderWidth: 1,
+                lineTension: 0.1,
+            }]
+        },
+        options: {
+                responsive:false
+        }
+    });
+</script>
+<!-- <script>
+    const myChart1 = new Chart(
+        document.getElementById('myChart1'),
+        config
+    );
+    const myChart2 = new Chart1(
+        document.getElementById('myChart2'),
+        config
+    );
+</script> -->
+
+{% endblock%}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %} Sales {% endblock %}
+{% block head %}
+ {% include 'nav.html' %}
+{% endblock %}
+{% block body %}
+    <main class="container">
+        <section class="hero">
+           
+            <div >
+                {% include 'summury_strip.html' %}
+               
+                <div class="row">
+                    <div class="col-lg-2">
+
+                    </div>
+                  <div class="col table_1">
+                    <table class="table table-striped" id="myTable">
+                        <thead>
+                          <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">ProductID</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Created at</th>
+                            <th scope="col">View</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for i in sale %}
+                            <tr>
+                              <th scope="row">{{i[0]}}</th>
+                              <td>{{i[1]}}</td>
+                              <td>{{i[2]}}</td>
+                              <td>{{i[3]}}</td>
+                              <td>
+                                 <button type="button" class="btn text-success btn-outline-dark" data-bs-toggle="modal" data-bs-target="#viewModal{{i[0]}}">
+                                   
+                                    <a href="sales/{{ i[0] }}" ion-icon class="bi bi-eye-slash">
+                                      View 
+                                    </a>
+                                  </button>
+                                  
+                                 
+                              </td>
+
+                            </tr>
+                                         
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                
+                </div>
+              </div>
+        </section>
+    </main>
+    {%  endblock %}
